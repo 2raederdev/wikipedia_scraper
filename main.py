@@ -14,6 +14,7 @@ def wantToContinue():
 def scrapeWikiArticle():
 	url = input('Please, enter the URL of a Wikipedia article: ')
 
+	# Check for valid URL
 	if not url.startswith('http') or 'wikipedia.org' not in url:
 		print('Sorry, the URL might be wrong as there are no links to Wikipedia articles. Please remember that a valid URL should always start with \'http\' as well.')
 
@@ -29,24 +30,24 @@ def scrapeWikiArticle():
 	# Find the h1 (title of the article, the term you are looking for) by the ID tag.
 	title = soup.find(id="firstHeading")
 
-	print(title.text)
+	print(f'The title of the article is \'{title.text}\'\n')
 
 	# Now, let's get all the links within the content of the article. The article is inside a DIV with the ID "bodyContent".
 	links = soup.find(id="bodyContent").find_all("a")
 	internal_links = filter(lambda link: link['href'].find("/wiki/") == 0, links)
 
 	if not internal_links:
-		print('Sorry, the URL might be wrong as there are no links to Wikipedia articles.')
+		print('Sorry, but something went wrong.')
 
 		if not wantToContinue():
 			print('Bye!')
 			return
 	
 	for internal_link in internal_links:
-		print(internal_link.string)
+		if internal_link.string:
+			print(internal_link.string)
 
-	print()
-	print('This was the list of all the internal links founded in the Wikipedia article. Thank you!')
+	print('\nThis was the list of all the internal links founded in the Wikipedia article. Thank you!')
 
 
 scrapeWikiArticle()
