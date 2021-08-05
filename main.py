@@ -3,9 +3,9 @@ from bs4 import BeautifulSoup
 
 
 def wantToContinue():
-	skip = input('Do you want to try it again? (y/n): ')
+	confirm = input('Do you want to try it again? (y/n): ')
 
-	if skip[0].lower() == 'y':
+	if confirm[0].lower() == 'y':
 		scrapeWikiArticle()
 	else:
 		return False
@@ -18,6 +18,7 @@ def scrapeWikiArticle():
 	if not url.startswith('http') or 'wikipedia.org' not in url:
 		print('Sorry, the URL might be wrong as there are no links to Wikipedia articles. Please remember that a valid URL should always start with \'http\' as well.')
 
+		# If wrong URL, confirm if the user wants to continue
 		if not wantToContinue():
 			print('Bye!')
 			return
